@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",  // Usar ESNext para módulos
+    "target": "ESNext",  // Establecer el objetivo de salida como ESNext
+    "moduleResolution": "node",  // Resolución de módulos como en Node.js
+    "esModuleInterop": true,  // Permite importar módulos de CommonJS como si fueran ES Modules
+    "experimentalDecorators": true,  // Habilitar soporte para decoradores
+    "emitDecoratorMetadata": true,  // Emitir metadatos necesarios para los decoradores
+    "outDir": "./dist",  // Directorio de salida para los archivos compilados
+    "strict": true,  // Habilitar el modo estricto para más seguridad
+    "skipLibCheck": true  // Omite la verificación de tipos en archivos de declaración
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
