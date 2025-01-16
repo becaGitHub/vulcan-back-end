@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
-import { CreateStudentDto } from './dto/create-student.dto';
-import { UpdateStudentDto } from './dto/update-student.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Student } from './entities/student.entity';
 
 @Injectable()
 export class StudentsService {
-  create(createStudentDto: CreateStudentDto) {
-    return 'This action adds a new student';
+  constructor(
+    @InjectRepository(Student)
+    private studentsRepository: Repository<Student>,
+  ) {}
+
+  async findAll(): Promise<Student[]> {
+    console.log(await this.studentsRepository.find());
+    return await this.studentsRepository.find();
   }
 
-  findAll() {
-    return `This action returns all students`;
+  findOne(id: number): Promise<Student> {
+    return this.studentsRepository.findOneBy({ id });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} student`;
+  create(student: Student): Promise<Student> {
+    return this.studentsRepository.save(student);
   }
 
-  update(id: number, updateStudentDto: UpdateStudentDto) {
-    return `This action updates a #${id} student`;
+  async update(id: number, updateData: Partial<Student>): Promise<Student> {
+    await this.studentsRepository.update(id, updateData); // Actualiza los datos en la base
+    return this.findOne(id); // Retorna el estudiante actualizado
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} student`;
+  async remove(id: number): Promise<void> {
+    await this.studentsRepository.delete(id);
   }
 }
