@@ -17,7 +17,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       entities: [__dirname + '/**/*.entity{.ts,.js}'], // Carga tus entidades automáticamente
       synchronize: true, // ¡Solo usar en desarrollo! En producción, usa migraciones
       autoLoadEntities: true, // Esto carga automáticamente todas las entidades registradas en los módulos
-      // logging: true, // Habilita logs para depuración
+      logging: true, // Habilita logs para depuración
       // logging: ['query', 'error', 'schema', 'warn', 'info', 'log'],
     }),
   ],

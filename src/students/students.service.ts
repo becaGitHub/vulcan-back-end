@@ -11,7 +11,6 @@ export class StudentsService {
   ) {}
 
   async findAll(): Promise<Student[]> {
-    console.log(await this.studentsRepository.find());
     return await this.studentsRepository.find();
   }
 
