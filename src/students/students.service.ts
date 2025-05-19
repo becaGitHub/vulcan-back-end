@@ -18,7 +18,13 @@ export class StudentsService {
     return this.studentsRepository.findOneBy({ id });
   }
 
-  create(student: Student): Promise<Student> {
+  async create(student: Student): Promise<Student> {
+    const allStudents = await this.studentsRepository.find();
+    allStudents.forEach(element => {
+      if(element.name.toLowerCase() === student.name.toLowerCase()){
+        return 'este estudiante ya existe'
+      }
+    });
     return this.studentsRepository.save(student);
   }
 
