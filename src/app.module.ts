@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { StudentsModule } from './students/students.module';
 import { CursesModule } from './curses/curses.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ProductsModule } from './products/products.module';
+import { CategorysModule } from './categorys/categorys.module';
+import { SubCategoryModule } from './sub-category/sub-category.module';
 
 @Module({
   imports: [
@@ -19,7 +22,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       autoLoadEntities: true, // Esto carga automáticamente todas las entidades registradas en los módulos
       logging: true, // Habilita logs para depuración
       // logging: ['query', 'error', 'schema', 'warn', 'info', 'log'],
-    }),
+    }), ProductsModule, CategorysModule, SubCategoryModule,
   ],
   controllers: [],
   providers: [],
