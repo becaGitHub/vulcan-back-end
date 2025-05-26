@@ -32,5 +32,8 @@ export class Category {
   sub_categories: SubCategory[];
 
   @OneToMany(() => Product, product => product.category)
-  products: Product[];  
+  products: Product[];
+
+  @Column({ type: 'varchar', length: 36 })
+  tenant_id: string;
 }

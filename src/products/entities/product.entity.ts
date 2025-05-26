@@ -10,8 +10,17 @@ export class Product {
   @Column({ type: 'varchar', length: 36 })
   name: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseFloat(value),
+    },
+  })
   price: number;
+
 
   @Column({ type: 'varchar', length: 36 })
   image: string;
@@ -47,4 +56,7 @@ export class Product {
   @ManyToOne(() => Category, category => category.products)
   @JoinColumn({ name: 'category_id' })
   category: Category;
+
+  @Column({ type: 'varchar', length: 36 })
+  tenant_id: string;
 }

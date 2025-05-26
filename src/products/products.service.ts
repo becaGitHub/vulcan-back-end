@@ -50,4 +50,14 @@ export class ProductsService {
     product.modified_by = user_id;
     return this.productRepository.save(product);
   }
+
+//   findAll(tenantId: string) {
+//   return this.productRepository.find({
+//     where: {
+//       deleted: false,
+//       tenant_id: tenantId,
+//     },
+//   });
+// }
+
 }
