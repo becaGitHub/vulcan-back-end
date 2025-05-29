@@ -4,6 +4,7 @@ import { CreateSubCategoryDto } from './dto/create-sub-category.dto';
 import { UpdateSubCategoryDto } from './dto/update-sub-category.dto';
 import { ApiResponse, ApiTags, ApiBody } from '@nestjs/swagger';
 
+@ApiTags('sub-category')
 @Controller('sub-category')
 export class SubCategoryController {
   constructor(private readonly subCategoryService: SubCategoryService) {}

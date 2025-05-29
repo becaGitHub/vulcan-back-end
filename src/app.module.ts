@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { StudentsModule } from './students/students.module';
-import { CursesModule } from './curses/curses.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/products.module';
 import { CategorysModule } from './categorys/categorys.module';
@@ -10,7 +9,6 @@ import { SalesModule } from './sales/sales.module';
 @Module({
   imports: [
     StudentsModule,
-    CursesModule,    
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',

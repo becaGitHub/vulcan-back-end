@@ -13,8 +13,8 @@ async function bootstrap() {
     });
     
     const config = new DocumentBuilder()
-      .setTitle('Vulcan API')
-      .setDescription('API to manage Vulcan Api REST')
+      .setTitle('Sales API')
+      .setDescription('API to manage Sales Api REST')
       .setVersion('1.0')
       .build();
   
