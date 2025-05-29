@@ -5,6 +5,7 @@ import { ProductsModule } from './products/products.module';
 import { CategorysModule } from './categorys/categorys.module';
 import { SubCategoryModule } from './sub-category/sub-category.module';
 import { SalesModule } from './sales/sales.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { SalesModule } from './sales/sales.module';
       autoLoadEntities: true, // Esto carga automáticamente todas las entidades registradas en los módulos
       logging: true, // Habilita logs para depuración
       // logging: ['query', 'error', 'schema', 'warn', 'info', 'log'],
-    }), ProductsModule, CategorysModule, SubCategoryModule, SalesModule,
+    }), ProductsModule, CategorysModule, SubCategoryModule, SalesModule, UsersModule,
   ],
   controllers: [],
   providers: [],
