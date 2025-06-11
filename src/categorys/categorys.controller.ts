@@ -40,17 +40,17 @@ export class CategorysController {
     return this.categorysService.findAll();
   }
 
-  @Get(':id([0-9a-fA-F-]{36})')
+  @Get()
   findOne(@Param('id') id: string) {
     return this.categorysService.findOne(id);
   }
 
-  @Patch(':id([0-9a-fA-F-]{36})')
+  @Patch()
   update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
     return this.categorysService.update(+id, updateCategoryDto);
   }
 
-  @Delete(':id([0-9a-fA-F-]{36})')
+  @Delete()
   remove(@Param('id') id: string, @Query('user_id') user_id: string) {
     return this.categorysService.remove(id, user_id);
   }  

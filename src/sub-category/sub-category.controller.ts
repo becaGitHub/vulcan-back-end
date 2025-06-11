@@ -35,17 +35,17 @@ export class SubCategoryController {
     return this.subCategoryService.findAll();
   }
 
-  @Get(':id([0-9a-fA-F-]{36})')
+  @Get()
   findOne(@Param('id') id: string) {
     return this.subCategoryService.findOne(+id);
   }
 
-  @Patch(':id([0-9a-fA-F-]{36})')
+  @Patch()
   update(@Param('id') id: string, @Body() updateSubCategoryDto: UpdateSubCategoryDto) {
     return this.subCategoryService.update(+id, updateSubCategoryDto);
   }
 
-  @Delete(':id([0-9a-fA-F-]{36})')
+  @Delete()
   remove(@Param('id') id: string) {
     return this.subCategoryService.remove(+id);
   }
