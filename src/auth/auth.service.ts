@@ -15,30 +15,32 @@ export class AuthService {
         private readonly usersService: UsersService,
         private jwtService: JwtService
     ) {}
-    async register({email, password, name} : RegisterDto) {
-        // const {
-        //     email,
-        //     password,
-        //     name,
-        // } = registerDto;
-
+    async register(registerDto : RegisterDto) {
+        console.log(registerDto)
+        const {
+            email,
+            password,
+        } = registerDto;
+        
         const user = await this.usersService.findOneByEmail(email);
         console.log(user)
         if(user) {
             throw new BadRequestException('User already exists with this email'); // revisar documentación para mas tipos de errores de nestjs
         }
 
-        await this.usersService.create({
-            email,
-            password: await bcrypt.hash(password, 10), // Hash the password before saving
-            name
-        });
+        registerDto.password = await bcrypt.hash(password, 10), // Hash the password before saving
+        await this.usersService.create(registerDto);
     }
 
     async login({email, password}: LoginDto) {
+        console.log(email, password)
         const user = await this.usersService.findOneByEmail(email);
-        console.log(user)
-        const tenant_id = user.tenant_id;
+        const {
+            id,
+            name,
+            username,
+        } = user || {};
+        
         if (!user) {
             throw new UnauthorizedException('email is wrong');
         }
@@ -52,8 +54,11 @@ export class AuthService {
         const token = await this.jwtService.signAsync(payload)
         return {
             token,
-            email,
-            tenant_id,
+            user:{
+                id,
+                name,
+                username,
+            }
         };
     }
 }
