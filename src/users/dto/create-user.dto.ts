@@ -1,59 +1,21 @@
-import { IsEmail, IsString, MinLength, IsOptional } from 'class-validator';
-import { Transform } from 'class-transformer';
 export class CreateUserDto {
-    @IsString()
-  @MinLength(3)
-  @Transform(({ value }) => value.trim())
-  name: string;
-
-  @IsEmail()
-  email: string;
-
-  @IsString()
-  @MinLength(6)
-  @Transform(({ value }) => value.trim())
-  password: string;
-
-  @IsString()
-  @Transform(({ value }) => value.trim())
-  dni: string;
-
-  @IsString()
-  @Transform(({ value }) => value.trim())
-  username: string;
-
-  @IsOptional()
-  @IsString()
-  @Transform(({ value }) => value?.trim())
-  image?: string;
-
-  @IsOptional()
-  @IsString()
-  @Transform(({ value }) => value?.trim())
-  phone?: string;
-
-  @IsOptional()
-  @IsString()
-  @Transform(({ value }) => value?.trim())
-  address?: string;
-
-  @IsOptional()
-  @IsString()
-  @Transform(({ value }) => value?.trim())
-  gender?: string;
-
-  @IsOptional()
-  @IsString()
-  @Transform(({ value }) => value?.trim())
-  role?: string;
-
-  @IsOptional()
-  @IsString()
-  @Transform(({ value }) => value?.trim())
-  tenant_id?: string;
-
-  @IsOptional()
-  @IsString()
-  @Transform(({ value }) => value?.trim())
-  subsidiary_id?: string;
+    name: string;
+    email: string;
+    password: string;
+    dni: string;
+    username: string;
+    image?: string;
+    phone?: string;
+    address?: string;
+    gender?: string;
+    role?: string;
+    tenant_id?: string;
+    subsidiary_id?: string;
+    created_by?: string;
+    modified_by?: string;
+    date_entered?: Date;
+    date_modified?: Date;
+    birthday?: Date;
+    deleted?: boolean;
+    active?: boolean;
 }

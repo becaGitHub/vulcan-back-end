@@ -12,29 +12,44 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
+  // este servicio se consume desde register
   create(createUserDto: CreateUserDto) {
+    createUserDto.date_entered = new Date();
+    createUserDto.date_modified = new Date();
+    createUserDto.deleted = false;
+    createUserDto.active = true;
     return this.userRepository.save(createUserDto);
   }
 
-  async findOneByEmail(email: string): Promise<User | null> {
-    console.log('sssssssss');
-    console.log(await this.userRepository.findOneBy({ email }))
-    return await this.userRepository.findOneBy({ email }); 
+  async findOneByParameter(field: string, value: string): Promise<User | null> {
+    return await this.userRepository.findOneBy({ [field]: value });
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userRepository.find();
+  async findAllByTenant(tenant_id: string): Promise<User[]> {
+    return this.userRepository.find({
+      where: { tenant_id, deleted: false }
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string): Promise<User | null> {
+    return await this.userRepository.findOne({
+      where: { id, deleted: false }
+    });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User | null> {
+    await this.userRepository.update({ id }, { ...updateUserDto, date_modified: new Date() });
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async updateActiveStatus(user_id: string, active_aux: boolean, user_id_login: string): Promise<User | null> {
+    active_aux = String(active_aux).toLowerCase() === 'true';
+    await this.userRepository.update({ id: user_id }, { active: active_aux, date_modified: new Date(), modified_by: user_id_login });
+    return this.findOne(user_id);
+  }
+
+  async remove(id: string): Promise<{ message: string }> {
+    await this.userRepository.update({ id }, { deleted: true, date_modified: new Date() });
+    return { message: `User #${id} has been removed (soft delete)` };
   }
 }

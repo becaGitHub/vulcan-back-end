@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, Request } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Request, Req } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
@@ -44,10 +44,11 @@ export class AuthController {
     })
     register(
         @Body()
-        registerDto: RegisterDto
+        registerDto: RegisterDto,
+        @Req()
+        req
     ) {
-        console.log(registerDto);
-        return this.authService.register(registerDto);
+        return this.authService.register(registerDto, req.user);
     }
 
     @Post('login')
