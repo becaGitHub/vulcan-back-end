@@ -31,6 +31,26 @@ export class UsersService {
     });
   }
 
+  // async findAllByTenant(
+  //   tenant_id: string,
+  //   page = 1,
+  //   limit = 10,
+  //   filters: { name?: string; email?: string; role?: string } = {}
+  // ): Promise<{ data: User[]; total: number; page: number; limit: number }> {
+  //   const where: any = { tenant_id, deleted: false };
+
+  //   if (filters.name) where.name = filters.name;
+  //   if (filters.email) where.email = filters.email;
+  //   if (filters.role) where.role = filters.role;
+
+  //   const [data, total] = await this.userRepository.findAndCount({
+  //     where,
+  //     skip: (page - 1) * limit,
+  //     take: limit,
+  //   });
+  //   return { data, total, page, limit };
+  // }
+
   async findOne(id: string): Promise<User | null> {
     return await this.userRepository.findOne({
       where: { id, deleted: false }

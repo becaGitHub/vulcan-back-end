@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { StudentsModule } from './students/students.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/products.module';
 import { CategorysModule } from './categorys/categorys.module';
@@ -9,10 +8,10 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { RolesModule } from './roles/roles.module';
 import { SubsidiariesModule } from './subsidiaries/subsidiaries.module';
+import { TenantsModule } from './tenants/tenants.module';
 
 @Module({
   imports: [
-    StudentsModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -25,7 +24,7 @@ import { SubsidiariesModule } from './subsidiaries/subsidiaries.module';
       autoLoadEntities: true, // Esto carga automáticamente todas las entidades registradas en los módulos
       logging: true, // Habilita logs para depuración
       // logging: ['query', 'error', 'schema', 'warn', 'info', 'log'],
-    }), ProductsModule, CategorysModule, SubCategoryModule, SalesModule, UsersModule, AuthModule, RolesModule, SubsidiariesModule,
+    }), ProductsModule, CategorysModule, SubCategoryModule, SalesModule, UsersModule, AuthModule, RolesModule, SubsidiariesModule, TenantsModule,
   ],
   controllers: [],
   providers: [],

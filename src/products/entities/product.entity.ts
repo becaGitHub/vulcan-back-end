@@ -21,7 +21,6 @@ export class Product {
   })
   price: number;
 
-
   @Column({ type: 'varchar', length: 36 })
   image: string;
 

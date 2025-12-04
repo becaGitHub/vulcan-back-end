@@ -97,3 +97,52 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+
+base de datos /////////////////////////
+
+instalar Docker y ejecutar
+
+docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=Qy8AbANA7HFuf8=uL5v4Au4MI -e MYSQL_DATABASE=database -p 3306:3306 -d mysql:8.0
+
+docker run --name myadmin -d -e PMA_HOST=host.docker.internal -e PMA_PORT=3306 -p 9001:80 phpmyadmin/phpmyadmin
+docker run --name myadmin -d --link mysql-container:mysql -e PMA_HOST=mysql-container -e PMA_PORT=3306 -p 9001:80 phpmyadmin/phpmyadmin
+
+
+
+----- Script para crear las tablas -----
+
+CREATE TABLE students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    birthday DATE NOT NULL,
+    gender ENUM('F', 'M', 'Other') NOT NULL,
+    deleted BOOLEAN DEFAULT FALSE,
+    date_entered DATETIME DEFAULT CURRENT_TIMESTAMP,
+    date_modified DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE curses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    maximum INT NOT NULL,
+    deleted BOOLEAN DEFAULT FALSE,
+    date_entered DATETIME DEFAULT CURRENT_TIMESTAMP,
+    date_modified DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE students_curses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    curse_id INT NOT NULL,
+    student_id INT NOT NULL,
+    deleted BOOLEAN DEFAULT FALSE,
+    date_entered DATETIME DEFAULT CURRENT_TIMESTAMP,
+    date_modified DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_curse FOREIGN KEY (curse_id) REFERENCES curses(id) ON DELETE CASCADE,
+    CONSTRAINT fk_student FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
+);
+
+-- Índices adicionales para mejorar el rendimiento en búsquedas
+CREATE INDEX idx_students_deleted ON students(deleted);
+CREATE INDEX idx_curses_deleted ON curses(deleted);
+CREATE INDEX idx_students_curses_deleted ON students_curses(deleted);

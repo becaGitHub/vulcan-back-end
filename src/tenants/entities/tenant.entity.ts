@@ -1,12 +1,18 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('roles')
-export class Role {
+@Entity('tenants')
+export class Tenant {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column({ type: 'varchar', length: 36 })
     name: string;
+
+    @Column({ type: 'varchar', length: 36, nullable: true })
+    address?: string;
+
+    @Column({ type: 'varchar', length: 20, nullable: true })
+    phone?: string;
     
     @Column({ default: true })
     active: boolean;
@@ -25,7 +31,4 @@ export class Role {
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
     date_modified?: Date;
-
-    @Column({ type: 'varchar', length: 36 })
-    tenant_id: string;
 }

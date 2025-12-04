@@ -43,8 +43,11 @@ export class User {
     @Column({ type: 'varchar', length: 36 })
     tenant_id: string;
 
-    @Column({ default:'user', type: 'varchar', length: 36 })
-    role: string;
+    @Column({ type: 'varchar', length: 36 })
+    role_id: string;
+
+    @Column({ type: 'varchar', length: 36 })
+    role_name: string;
 
     @Column({ type: 'varchar', length: 36, nullable: true })
     image?: string;
@@ -65,4 +68,7 @@ export class User {
 
     @Column({ type: 'varchar', length: 36, nullable: true })
     subsidiary_id?: string;
+
+    @Column({ type: 'varchar', length: 36, nullable: true })
+    subsidiary_name?: string;
 }
