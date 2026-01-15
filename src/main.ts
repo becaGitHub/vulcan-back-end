@@ -26,8 +26,10 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api', app, document);
     
-    await app.listen(4000);
-    // console.log('http://localhost:4000/api')
+    const port = parseInt(process.env.PORT || '4000', 10);
+    await app.listen(port);
+    const url = await app.getUrl();
+    console.log(`Swagger disponible en: ${url}/api`);
     
   } catch (error) {
     console.error('Error during application startup:', error);
