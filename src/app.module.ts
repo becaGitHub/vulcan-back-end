@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/products.module';
 import { CategorysModule } from './categorys/categorys.module';
@@ -12,19 +13,32 @@ import { TenantsModule } from './tenants/tenants.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root', // Cambia esto por tu usuario de MySQL
-      password: 'admin', // Cambia esto por tu contraseña de MySQL
-      database: 'database_vulcan', // Cambia esto por el nombre de tu base de datos
-      entities: [__dirname + '/**/*.entity{.ts,.js}'], // Carga tus entidades automáticamente
-      synchronize: true, // ¡Solo usar en desarrollo! En producción, usa migraciones
-      autoLoadEntities: true, // Esto carga automáticamente todas las entidades registradas en los módulos
-      logging: true, // Habilita logs para depuración
-      // logging: ['query', 'error', 'schema', 'warn', 'info', 'log'],
-    }), ProductsModule, CategorysModule, SubCategoryModule, SalesModule, UsersModule, AuthModule, RolesModule, SubsidiariesModule, TenantsModule,
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        type: 'mysql',
+        host: config.get<string>('DB_HOST', 'localhost'),
+        port: parseInt(config.get<string>('DB_PORT', '3306'), 10),
+        username: config.get<string>('DB_USERNAME', 'root'),
+        password: config.get<string>('DB_PASSWORD', ''),
+        database: config.get<string>('DB_NAME', 'database_vulcan'),
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        synchronize: config.get<string>('DB_SYNCHRONIZE', 'true') === 'true',
+        autoLoadEntities: true,
+        logging: config.get<string>('DB_LOGGING', 'true') === 'true',
+      }),
+    }),
+    ProductsModule,
+    CategorysModule,
+    SubCategoryModule,
+    SalesModule,
+    UsersModule,
+    AuthModule,
+    RolesModule,
+    SubsidiariesModule,
+    TenantsModule,
   ],
   controllers: [],
   providers: [],
