@@ -8,10 +8,24 @@ async function bootstrap() {
   try {
     const app = await NestFactory.create(AppModule);
   
+    // CORS configuration read from environment. FRONTEND_ORIGIN can be a
+    // single origin or a comma-separated list of origins. Example:
+    // FRONTEND_ORIGIN=http://localhost:4000,https://app.example.com
+    const rawOrigins = process.env.FRONTEND_ORIGIN || 'http://localhost:4000';
+    const allowedOrigins = rawOrigins.split(',').map(s => s.trim()).filter(Boolean);
+    const allowCredentials = process.env.CORS_CREDENTIALS !== 'false';
+
     app.enableCors({
-      origin: 'http://localhost:9000', // Origen del frontend
+      origin: (origin, callback) => {
+        // If no origin (e.g. curl, server-to-server) allow it
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
+          return callback(null, true);
+        }
+        return callback(new Error('CORS origin not allowed'), false);
+      },
       methods: 'GET,POST,PUT,DELETE,PATCH,OPTIONS',
-      credentials: true,
+      credentials: allowCredentials,
     });
 
     app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
