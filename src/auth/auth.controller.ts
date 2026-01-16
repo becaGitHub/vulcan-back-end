@@ -1,5 +1,6 @@
 import { Controller, Post, Body, Get, UseGuards, Request, Req } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
+import { Public } from './public.decorator';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -52,6 +53,7 @@ export class AuthController {
     }
 
     @Post('login')
+    @Public()
     @ApiBody({
         type: LoginDto,
         description: 'Datos de inicio de sesión',

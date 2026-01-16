@@ -1,11 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { CategorysService } from './categorys.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { ApiResponse, ApiTags, ApiBody } from '@nestjs/swagger';
+import { ApiResponse, ApiTags, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
 import { Query } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/guard/auth.guard';
 
 @ApiTags('categorys')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 @Controller('categorys')
 export class CategorysController {
   constructor(private readonly categorysService: CategorysService) {}

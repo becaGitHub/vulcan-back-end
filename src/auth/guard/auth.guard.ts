@@ -2,18 +2,35 @@ import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from
 import { Request } from 'express';
 import { jwtConstants } from '../constants/jwt.constant';
 import { JwtService } from '@nestjs/jwt';
+import { Reflector } from '@nestjs/core';
+import { IS_PUBLIC_KEY } from '../public.decorator';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
+    private readonly reflector: Reflector,
   ){}
 
   async canActivate(
     context: ExecutionContext,
   ): Promise<boolean> {
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+
+    if (isPublic) {
+      return true;
+    }
+
     const request = context.switchToHttp().getRequest();
-    
+
+    // Allow Swagger UI and docs endpoints to be accessed without token
+    if (request && request.path && request.path.startsWith('/api')) {
+      return true;
+    }
+
     const token = this.extractTokenFromHeader(request)
 
     if (!token) {

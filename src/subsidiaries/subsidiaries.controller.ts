@@ -6,6 +6,8 @@ import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../auth/guard/auth.guard';
 
 @ApiTags('subsidiaries')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 @Controller('subsidiaries')
 export class SubsidiariesController {
   constructor(private readonly subsidiariesService: SubsidiariesService) {}
